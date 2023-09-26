@@ -15,6 +15,10 @@
 #include <TopoDs_Shape.hxx>
 #include <IVtkOCC_Shape.hxx>
 
+#include <thread>
+#include <memory>
+#include <mutex>
+
 
 class viewWndow
 {
@@ -33,6 +37,7 @@ public:
 
 	void addShape(TopoDS_Shape shape);
 	void run();
+	void start();
 	void clean();
 };
 

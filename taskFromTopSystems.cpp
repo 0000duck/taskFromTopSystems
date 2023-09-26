@@ -1,10 +1,14 @@
-﻿#include "makerPrimitive.h"
+﻿#include <thread>
+
+#include "makerPrimitive.h"
 #include "viewWndow.h"
 #include "CLI.h"
 
 int main()
 {
+    
     CLI cli;
+
     makerPrimitive mak;
     viewWndow win;
 
@@ -12,6 +16,7 @@ int main()
         cli.processing();
         win.clean();
         mak.setShape(cli.getNumberFigure());
+        win.start();
 
         win.addShape(mak.makePrimitiv());
         win.run();

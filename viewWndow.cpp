@@ -25,19 +25,30 @@ void viewWndow::addShape(TopoDS_Shape shape)
 	
 	Mapper->SetInputConnection(DS->GetOutputPort());
 	
-	vtkSmartPointer<vtkActor> actor_ = vtkSmartPointer<vtkActor>::New();;
+	actor_ = vtkSmartPointer<vtkActor>::New();;
 
 	actor_->SetMapper(Mapper);
 	ren_->AddActor(actor_);
+
+
 }
 
 void viewWndow::run()
 {
 	renwin_->Render();
 	iren_->Start();
+
+	//ren_->AddActor(actor_);
+
+}
+
+void viewWndow::start()
+{
+	iren_->Enable();
 }
 
 void viewWndow::clean()
 {
+	iren_->Disable();
 	ren_->RemoveActor(actor_);
 }
