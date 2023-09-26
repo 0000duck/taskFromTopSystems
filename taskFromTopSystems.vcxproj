@@ -133,7 +133,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CLI.cpp" />
+    <ClCompile Include="makerPrimitive.cpp" />
     <ClCompile Include="taskFromTopSystems.cpp" />
+    <ClCompile Include="viewWndow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLI.h" />
+    <ClInclude Include="makerPrimitive.h" />
+    <ClInclude Include="viewWndow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
