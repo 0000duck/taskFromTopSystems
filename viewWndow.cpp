@@ -2,6 +2,8 @@
 
 viewWndow::viewWndow()
 {
+
+	ready = true;
 	renwin_ = vtkSmartPointer<vtkRenderWindow>::New();
 	ren_ = vtkSmartPointer<vtkRenderer>::New();
 
@@ -12,10 +14,17 @@ viewWndow::viewWndow()
 
 	iren_->SetRenderWindow(renwin_);
 	iren_->SetInteractorStyle(istyle_);
+
+	iren_->Initialize();
+	iren_->Start();
 }
+
 
 void viewWndow::addShape(TopoDS_Shape shape)
 {
+	ready = false;
+	ren_->
+	iren_->Disable();
 	IVtkOCC_Shape::Handle aShapeImpl = new IVtkOCC_Shape(shape);
 	vtkSmartPointer<IVtkTools_ShapeDataSource>
 		DS = vtkSmartPointer<IVtkTools_ShapeDataSource>::New();
@@ -28,27 +37,27 @@ void viewWndow::addShape(TopoDS_Shape shape)
 	actor_ = vtkSmartPointer<vtkActor>::New();;
 
 	actor_->SetMapper(Mapper);
+
 	ren_->AddActor(actor_);
 
-
+	iren_->Enable();
+	ready = true;
+	ren_->GetRenderWindow()->Render();
 }
 
 void viewWndow::run()
 {
-	renwin_->Render();
-	iren_->Start();
-
-	//ren_->AddActor(actor_);
-
-}
-
-void viewWndow::start()
-{
-	iren_->Enable();
+	while (open_window) {
+		if (ready) iren_->;
+	}
 }
 
 void viewWndow::clean()
 {
-	iren_->Disable();
 	ren_->RemoveActor(actor_);
+}
+
+void viewWndow::close()
+{
+	open_window = false;
 }

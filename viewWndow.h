@@ -16,8 +16,9 @@
 #include <IVtkOCC_Shape.hxx>
 
 #include <thread>
-#include <memory>
 #include <mutex>
+#include <condition_variable>
+
 
 
 class viewWndow
@@ -25,6 +26,13 @@ class viewWndow
 public:
 
 private:
+	std::mutex m;
+	std::condition_variable cv;
+
+
+	bool open_window = true;
+	bool ready = true;
+
 	vtkSmartPointer<vtkRenderWindow> renwin_;
 	vtkSmartPointer<vtkRenderer> ren_;
 
@@ -37,7 +45,8 @@ public:
 
 	void addShape(TopoDS_Shape shape);
 	void run();
-	void start();
 	void clean();
+
+	void close();
 };
 

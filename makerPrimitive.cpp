@@ -110,3 +110,4 @@ TopoDS_Shape makerPrimitive::makerElips()
 
     return BRepBuilderAPI_MakeFace(makerWire.Wire()).Shape();
 }
+

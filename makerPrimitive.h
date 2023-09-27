@@ -38,5 +38,6 @@ private:
 	TopoDS_Shape makeTriangle();
 	TopoDS_Shape makerRectangle();
 	TopoDS_Shape makerElips();
+
 };
 

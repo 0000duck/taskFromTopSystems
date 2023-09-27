@@ -1,25 +1,20 @@
-﻿#include <thread>
+﻿
+#include <thread>
 
 #include "makerPrimitive.h"
-#include "viewWndow.h"
+//#include "viewWndow.h"
 #include "CLI.h"
 
 int main()
 {
-    
-    CLI cli;
-
-    makerPrimitive mak;
     viewWndow win;
+    makerPrimitive mak;
+    CLI cli(&win, &mak);
 
-    while (cli.getStatus()) {
-        cli.processing();
-        win.clean();
-        mak.setShape(cli.getNumberFigure());
-        win.start();
+    std::thread t1(&CLI::processing, &cli);
+    t1.detach();
 
-        win.addShape(mak.makePrimitiv());
-        win.run();
-    }
+    win.run();
+
+
 }
-
