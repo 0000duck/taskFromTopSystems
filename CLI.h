@@ -1,6 +1,4 @@
 #pragma once
-#include "viewWndow.h"
-#include "makerPrimitive.h"
 
 #include <iostream>
 #include <string>
@@ -9,17 +7,14 @@
 class CLI
 {
 private:
-	viewWndow* ptr_;
-	makerPrimitive* ptr_maker_;
 
 	int numberFigure_;
-	bool status_ = true;
+	bool& status_;
 public:
-	CLI(viewWndow* ptr, makerPrimitive* ptr_maker);
+	CLI(bool& status);
 
 	void processing();
 
 	int getNumberFigure() const;
 	bool getStatus() const;
 };
-

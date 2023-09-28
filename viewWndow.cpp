@@ -2,29 +2,19 @@
 
 viewWndow::viewWndow()
 {
+	renderwindowDisplay3D = vtkSmartPointer<vtkRenderWindow>::New();
+	renDisplay3D = vtkSmartPointer<vtkRenderer>::New();
 
-	ready = true;
-	renwin_ = vtkSmartPointer<vtkRenderWindow>::New();
-	ren_ = vtkSmartPointer<vtkRenderer>::New();
+	irenDisplay3D = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	styleDisplay3D = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
 
-	renwin_->AddRenderer(ren_);
-
-	istyle_ = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
-	iren_ = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-
-	iren_->SetRenderWindow(renwin_);
-	iren_->SetInteractorStyle(istyle_);
-
-	iren_->Initialize();
-	iren_->Start();
+	std::thread t1([&] {this->run(this); });
+	t1.detach();
 }
 
 
 void viewWndow::addShape(TopoDS_Shape shape)
 {
-	ready = false;
-	ren_->
-	iren_->Disable();
 	IVtkOCC_Shape::Handle aShapeImpl = new IVtkOCC_Shape(shape);
 	vtkSmartPointer<IVtkTools_ShapeDataSource>
 		DS = vtkSmartPointer<IVtkTools_ShapeDataSource>::New();
@@ -34,30 +24,38 @@ void viewWndow::addShape(TopoDS_Shape shape)
 	
 	Mapper->SetInputConnection(DS->GetOutputPort());
 	
-	actor_ = vtkSmartPointer<vtkActor>::New();;
+	vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();;
 
-	actor_->SetMapper(Mapper);
+	actor->SetMapper(Mapper);
 
-	ren_->AddActor(actor_);
-
-	iren_->Enable();
-	ready = true;
-	ren_->GetRenderWindow()->Render();
+	timerCallback->addShape(actor);
 }
 
-void viewWndow::run()
+// нормально
+unsigned long __stdcall viewWndow::run(void* param)
 {
-	while (open_window) {
-		if (ready) iren_->;
-	}
+	this->timerCallback = vtkSmartPointer<vtkMyCallback>::New();
+
+	this->renderwindowDisplay3D->SetSize(600, 400);
+	this->renderwindowDisplay3D->AddRenderer(renDisplay3D);
+	this->renderwindowDisplay3D->Render();
+
+	this->irenDisplay3D->SetRenderWindow(renderwindowDisplay3D);
+	this->irenDisplay3D->SetInteractorStyle(styleDisplay3D);
+
+	this->irenDisplay3D->Initialize();
+
+	
+	this->irenDisplay3D->AddObserver(vtkCommand::TimerEvent, timerCallback);
+
+	this->irenDisplay3D->CreateRepeatingTimer(100);
+
+	irenDisplay3D->Start();
+
+	return 0;
 }
 
 void viewWndow::clean()
 {
-	ren_->RemoveActor(actor_);
-}
-
-void viewWndow::close()
-{
-	open_window = false;
+	timerCallback->Clean();
 }
