@@ -29,13 +29,14 @@
 1. Скачать источники [OCC](https://github.com/Open-Cascade-SAS/OCCT).
 2. Скачать зависимости ([freeimage-3.17.0](https://dev.opencascade.org/resources/download/3rd-party-components) [freetype-2.5.5](https://dev.opencascade.org/resources/download/3rd-party-components) [tcltk-86](https://dev.opencascade.org/resources/download/3rd-party-components) [VTK-6.1.0](https://dev.opencascade.org/resources/download/3rd-party-components)).
 3. Создать проект сборки в СMake со влюченным флагом USE_VTK.
-4. Клонировать данный репозитарий на свой пк.
-5. Добавить в дополнительные каталоги включаемых файлов: OpenCascade_install\inc (Собранная библиотека) и vtk\inc.
-6. Добавить в дополнительные каталоги библиотек OpenCascade_install\win64\vc14\lib и vtk\lib.
-7. В дополнительные зависимости добавить:
+4. Собрать проект OCC, [пример](https://www.youtube.com/watch?v=kZpr4ocnavA). 
+5. Клонировать данный репозитарий на свой пк.
+6. Добавить в дополнительные каталоги включаемых файлов: OpenCascade_install\inc (Собранная библиотека) и vtk\inc.
+7. Добавить в дополнительные каталоги библиотек OpenCascade_install\win64\vc14\lib и vtk\lib.
+8. В дополнительные зависимости добавить:
 
-    TKernel.lib; TKMath.lib; TKG3d.lib; TKBRep.lib; TKGeomBase.lib; TKGeomAlgo.lib; TKTopAlgo.lib; TKPrim.lib; TKBO.lib; TKBool.lib;TKOffset.lib; TKService.lib; TKV3d.lib; TKOpenGl.lib; TKFillet.lib; TKXSBase.lib; TKG2d.lib; TKG3d.lib; TKTopAlgo.lib; TKGeomBase.lib; TKSTEP209.lib; TKSTEPAttr.lib; TKSTEPBase.lib; TKSTep.lib; TKXmlXCAF.lib; TKXCAF.lib;
-8. Добавить в переменные окуржения путь до OpenCascade_install\win64\vc14\bin и vtk\bin, freetype-2.5.5\bin
+    vtkChartsCore-6.1.lib;vtkInteractionStyle-6.1.lib;vtkRenderingOpenGL-6.1.lib;vtkCommonCore-6.1.lib;vtkCommonExecutionModel-6.1.lib;vtkRenderingCore-6.1.lib;TKIVtk.lib;TKernel.lib;TKMath.lib;TKG3d.lib;TKBRep.lib;TKGeomBase.lib;TKGeomAlgo.lib;TKTopAlgo.lib;TKPrim.lib;TKBO.lib;TKBool.lib;TKOffset.lib;TKService.lib;TKV3d.lib;TKOpenGl.lib;TKFillet.lib;TKXSBase.lib;TKG2d.lib;TKSTEP209.lib;TKSTEPAttr.lib;TKSTEPBase.lib;TKSTep.lib;TKXmlXCAF.lib;TKXCAF.lib;
+9. Добавить в переменные окуржения путь до OpenCascade_install\win64\vc14\bin и vtk\bin, freetype-2.5.5\bin
 
 ## Замечания
 В Event Loop реализовано сообщение Exit, однако при вызове vtkRenderWindowInteractor::TerminateApp() или vtkRenderWindowInteractor::TermiExitCallback() в потоке в котором исполняется ViewWndow происходит ошибка "wglMakeCurrent failed in MakeCurrent()". При обычном завершении приложения (закрыть окно приложения), ошибок замечено не было.
