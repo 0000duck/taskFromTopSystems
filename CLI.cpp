@@ -1,47 +1,54 @@
 #include "CLI.h"
 
-CLI::CLI(bool& status) : status_(status){}
+CLI::CLI(std::queue<Message>& queue) : queue_(queue) {};
 
 void CLI::processing()
 {
-	std::string buf;
 	while (true) {
+		InitMessage();
+
 		std::cin >> buf;
 		int i = atoi(buf.c_str());
 
-		switch (i)
-		{
-		case 1:
-			numberFigure_ = 1;
+		if (i == 6) {
+			pushExit();
 			return;
-		case 2:
-			numberFigure_ = 2;
+		}
+		if (i >= 1 && i <= 5) {
+			pushMake(i);
 			return;
-		case 3:
-			numberFigure_ = 3;
-			return;
-		case 4:
-			numberFigure_ = 4;
-			return;
-		case 5:
-			numberFigure_ = 5;
-			return;
-		case 0:
-			status_ = false;
-			return;
-		default:
-			break;
 		}
 
+		buf.clear();
 	}
 }
 
-int CLI::getNumberFigure() const
+void CLI::pushMake(int i)
 {
-	return numberFigure_;
+	Message mes{
+		Message::command::makeShape,
+		Message::type_shape(i),
+	};
+
+	queue_.push(mes);
 }
 
-bool CLI::getStatus() const
+void CLI::pushExit()
 {
-	return status_;
+	Message mes{
+		Message::command::exit,
+		Message::type_shape::none,
+	};
+
+	queue_.push(mes);
+}
+
+void CLI::InitMessage(){
+	std::cout << "Enter the number of the shape you want to display:\n\
+1 - circle\n\
+2 - square\n\
+3 - triangle\n\
+4 - rectangle\n\
+5 - ellipse\n\
+input: ";
 }

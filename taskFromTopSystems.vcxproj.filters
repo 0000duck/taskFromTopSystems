@@ -27,15 +27,24 @@
     <ClCompile Include="CLI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="eventLoop.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="makerPrimitive.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="viewWndow.h">
+    <ClInclude Include="viewWindow.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="CLI.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="eventLoop.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="message.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <queue>
+
 #include <TopoDs_Shape.hxx>
 #include <TopoDS_Vertex.hxx>
 
@@ -13,30 +15,32 @@
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepBuilderAPI_MakeVertex.hxx>
 
-// класс реализующий один из выбранных прмиитивов
+#include "message.h"
 
-class makerPrimitive
+// класс реализующий один из выбранных прмиитивов
+class MakerPrimitive
 {
 public:
+	MakerPrimitive(std::queue<Message>& queue_);
+	
+	void makePrimitive(Message& mes);
 
+	TopoDS_Shape getShape() const;
 private:
-	bool status_;
+	MakerPrimitive() = delete;
 
-	int numberFigure_;
+	void makeCircle();
+	void makeSquare();
+	void makeTriangle();
+	void makeRectangle();
+	void makeElips();
 
+	void push();
 public:
-	makerPrimitive() : status_(false), numberFigure_(-1){};
 
-	bool isDone();
-	
-	void setShape(int i);
-	
-	TopoDS_Shape makePrimitiv();
 private:
-	TopoDS_Shape makeCircle();
-	TopoDS_Shape makeSquare();
-	TopoDS_Shape makeTriangle();
-	TopoDS_Shape makerRectangle();
-	TopoDS_Shape makerElips();
+	std::queue<Message>& queue_;
+
+	TopoDS_Shape actualShape_;
 };
 

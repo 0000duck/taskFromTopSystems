@@ -3,18 +3,27 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <queue>
+#include <functional>
+
+#include "message.h"
 
 class CLI
 {
-private:
-
-	int numberFigure_;
-	bool& status_;
 public:
-	CLI(bool& status);
+	CLI(std::queue<Message>& queue);
 
 	void processing();
+private:
+	CLI() = delete;
 
-	int getNumberFigure() const;
-	bool getStatus() const;
+	void InitMessage();
+	void pushMake(int i);
+	void pushExit();
+public:
+
+private:
+	std::queue<Message>& queue_;
+
+	std::string buf;
 };

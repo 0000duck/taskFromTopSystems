@@ -1,6 +1,6 @@
-#include "viewWndow.h"
+#include "viewWindow.h"
 
-viewWndow::viewWndow()
+ViewWndow::ViewWndow(std::queue<Message>& queue): queue_(queue)
 {
 	renderwindowDisplay3D = vtkSmartPointer<vtkRenderWindow>::New();
 	renDisplay3D = vtkSmartPointer<vtkRenderer>::New();
@@ -8,31 +8,36 @@ viewWndow::viewWndow()
 	irenDisplay3D = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 	styleDisplay3D = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
 
-	std::thread t1([&] {this->run(this); });
+	t1 = std::thread(([=] {this->run(this); }));
 	t1.detach();
 }
 
 
-void viewWndow::addShape(TopoDS_Shape shape)
+void ViewWndow::updateShape(TopoDS_Shape temp)
 {
-	IVtkOCC_Shape::Handle aShapeImpl = new IVtkOCC_Shape(shape);
+	IVtkOCC_Shape::Handle aShapeImpl = new IVtkOCC_Shape(temp);
 	vtkSmartPointer<IVtkTools_ShapeDataSource>
 		DS = vtkSmartPointer<IVtkTools_ShapeDataSource>::New();
 	DS->SetShape(aShapeImpl);
 
-	vtkSmartPointer<vtkPolyDataMapper> Mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+	vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
 	
-	Mapper->SetInputConnection(DS->GetOutputPort());
+	mapper->SetInputConnection(DS->GetOutputPort());
 	
 	vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();;
 
-	actor->SetMapper(Mapper);
+	actor->SetMapper(mapper);
 
-	timerCallback->addShape(actor);
+	timerCallback->updateActor(actor);
+}
+
+void ViewWndow::exit()
+{
+	irenDisplay3D->ExitCallback();
 }
 
 // нормально
-unsigned long __stdcall viewWndow::run(void* param)
+unsigned long __stdcall ViewWndow::run(void* param)
 {
 	this->timerCallback = vtkSmartPointer<vtkMyCallback>::New();
 
@@ -53,9 +58,4 @@ unsigned long __stdcall viewWndow::run(void* param)
 	irenDisplay3D->Start();
 
 	return 0;
-}
-
-void viewWndow::clean()
-{
-	timerCallback->Clean();
 }
