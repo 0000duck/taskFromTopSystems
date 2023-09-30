@@ -34,5 +34,12 @@
 6. Добавить в дополнительные каталоги библиотек OpenCascade_install\win64\vc14\lib и vtk\lib.
 7. В дополнительные зависимости добавить:
 
-    TKernel.lib; TKMath.lib; TKG3d.lib; TKBRep.lib; TKGeomBase.lib;TKGeomAlgo.lib; TKTopAlgo.lib; TKPrim.lib; TKBO.lib; TKBool.lib;TKOffset.lib; TKService.lib; TKV3d.lib; TKOpenGl.lib; TKFillet.lib; TKXSBase.lib; TKG2d.lib; TKG3d.lib; TKTopAlgo.lib; TKGeomBase.lib; TKSTEP209.lib; TKSTEPAttr.lib; TKSTEPBase.lib; TKSTep.lib; TKXmlXCAF.lib; TKXCAF.lib;
+    TKernel.lib; TKMath.lib; TKG3d.lib; TKBRep.lib; TKGeomBase.lib; TKGeomAlgo.lib; TKTopAlgo.lib; TKPrim.lib; TKBO.lib; TKBool.lib;TKOffset.lib; TKService.lib; TKV3d.lib; TKOpenGl.lib; TKFillet.lib; TKXSBase.lib; TKG2d.lib; TKG3d.lib; TKTopAlgo.lib; TKGeomBase.lib; TKSTEP209.lib; TKSTEPAttr.lib; TKSTEPBase.lib; TKSTep.lib; TKXmlXCAF.lib; TKXCAF.lib;
 8. Добавить в переменные окуржения путь до OpenCascade_install\win64\vc14\bin и vtk\bin, freetype-2.5.5\bin
+
+## Замечания
+В Event Loop реализовано сообщение Exit, однако при вызове vtkRenderWindowInteractor::TerminateApp() или vtkRenderWindowInteractor::TermiExitCallback() в потоке в котором исполняется ViewWndow происходит ошибка "wglMakeCurrent failed in MakeCurrent()". При обычном завершении приложения (закрыть окно приложения), ошибок замечено не было.
+
+Вероятнее всего ошибка связана с моим плохим знакомством с VTK.
+
+В ViewWndow реализован CallBack класс, при работе с потоками используются mutex-ы для обеспечения потокобезопасности.

@@ -33,7 +33,8 @@ void ViewWndow::updateShape(TopoDS_Shape temp)
 
 void ViewWndow::exit()
 {
-	irenDisplay3D->ExitCallback();
+	irenDisplay3D->UnRegister(irenDisplay3D);
+	irenDisplay3D->TerminateApp();
 }
 
 // нормально
