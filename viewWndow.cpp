@@ -2,16 +2,15 @@
 
 ViewWndow::ViewWndow(std::queue<Message>& queue): queue_(queue)
 {
-	renderwindowDisplay3D = vtkSmartPointer<vtkRenderWindow>::New();
-	renDisplay3D = vtkSmartPointer<vtkRenderer>::New();
+	renderWindowDisplay3D_ = vtkSmartPointer<vtkRenderWindow>::New();
+	renDisplay3D_ = vtkSmartPointer<vtkRenderer>::New();
 
-	irenDisplay3D = vtkSmartPointer<vtkRenderWindowInteractor>::New();
-	styleDisplay3D = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
+	irenDisplay3D_ = vtkSmartPointer<vtkRenderWindowInteractor>::New();
+	styleDisplay3D_ = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
 
-	t1 = std::thread(([=] {this->run(this); }));
-	t1.detach();
+	std::thread viewTread([=] {this->run(this); });
+	viewTread.detach();
 }
-
 
 void ViewWndow::updateShape(TopoDS_Shape temp)
 {
@@ -28,35 +27,31 @@ void ViewWndow::updateShape(TopoDS_Shape temp)
 
 	actor->SetMapper(mapper);
 
-	timerCallback->updateActor(actor);
+	timerCallback_->updateActor(actor);
 }
 
 void ViewWndow::exit()
 {
-	irenDisplay3D->UnRegister(irenDisplay3D);
-	irenDisplay3D->TerminateApp();
+	//irenDisplay3D->UnRegister(irenDisplay3D);
+	//irenDisplay3D->TerminateApp(); //
 }
 
-// нормально
 unsigned long __stdcall ViewWndow::run(void* param)
 {
-	this->timerCallback = vtkSmartPointer<vtkMyCallback>::New();
+	this->timerCallback_ = vtkSmartPointer<vtkMyCallback>::New();
 
-	this->renderwindowDisplay3D->SetSize(600, 400);
-	this->renderwindowDisplay3D->AddRenderer(renDisplay3D);
-	this->renderwindowDisplay3D->Render();
+	this->renderWindowDisplay3D_->SetSize(600, 400);
+	this->renderWindowDisplay3D_->AddRenderer(renDisplay3D_);
+	this->renderWindowDisplay3D_->Render();
 
-	this->irenDisplay3D->SetRenderWindow(renderwindowDisplay3D);
-	this->irenDisplay3D->SetInteractorStyle(styleDisplay3D);
-
-	this->irenDisplay3D->Initialize();
-
+	this->irenDisplay3D_->SetRenderWindow(renderWindowDisplay3D_);
+	this->irenDisplay3D_->SetInteractorStyle(styleDisplay3D_);
+	this->irenDisplay3D_->Initialize();
 	
-	this->irenDisplay3D->AddObserver(vtkCommand::TimerEvent, timerCallback);
+	this->irenDisplay3D_->AddObserver(vtkCommand::TimerEvent, timerCallback_);
+	this->irenDisplay3D_->CreateRepeatingTimer(100);
 
-	this->irenDisplay3D->CreateRepeatingTimer(100);
-
-	irenDisplay3D->Start();
+	irenDisplay3D_->Start();
 
 	return 0;
 }

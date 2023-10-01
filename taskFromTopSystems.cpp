@@ -1,7 +1,4 @@
-﻿#include "windows.h"
-
-#include "eventLoop.h"
-
+﻿#include "eventLoop.h"
 
 int main()
 {

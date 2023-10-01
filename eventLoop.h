@@ -21,7 +21,7 @@ public:
 private:
     std::queue<Message> queue_;
 
-    CLI cli;
-    MakerPrimitive maker;
-    ViewWndow win;
+    CLI cli_;
+    MakerPrimitive maker_;
+    ViewWndow win_;
 };

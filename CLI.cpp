@@ -5,10 +5,10 @@ CLI::CLI(std::queue<Message>& queue) : queue_(queue) {};
 void CLI::processing()
 {
 	while (true) {
-		InitMessage();
+		invitationMessage();
 
 		std::cin >> buf;
-		int i = atoi(buf.c_str());
+		int i = stoi(buf);
 
 		if (i == 6) {
 			pushExit();
@@ -43,7 +43,7 @@ void CLI::pushExit()
 	queue_.push(mes);
 }
 
-void CLI::InitMessage(){
+void CLI::invitationMessage(){
 	std::cout << "Enter the number of the shape you want to display:\n\
 1 - circle\n\
 2 - square\n\

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <memory>
 #include "TopoDS_Shape.hxx"
 #include <Standard_Handle.hxx>
 

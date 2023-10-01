@@ -28,48 +28,47 @@
 #include "message.h"
 
 
-	// Callback for the interaction.
-	class vtkMyCallback : public vtkCommand
+class vtkMyCallback : public vtkCommand
+{
+public:
+	static vtkMyCallback* New()
 	{
-	public:
-		static vtkMyCallback* New()
-		{
-			return new vtkMyCallback;
-		}
+		return new vtkMyCallback;
+	}
 
-		void Execute(vtkObject* caller, unsigned long, void*) override
-		{
-			if (statusAddShape_) {
-				vtkRenderWindowInteractor* renderer = reinterpret_cast<vtkRenderWindowInteractor*>(caller);
-				std::lock_guard<std::mutex> g_l(this->g_lock);
-				vtkSmartPointer<vtkRenderer> ptr_renderer = vtkSmartPointer<vtkRenderer>::New();
-
-				renderer->GetRenderWindow()->GetRenderers()->RemoveAllItems();
-				ptr_renderer->AddActor(this->actor_);
-
-				renderer->GetRenderWindow()->AddRenderer(ptr_renderer);
-				renderer->GetRenderWindow()->Render();
-
-				statusAddShape_ = !statusAddShape_;
-			}
-		};
-		
-		void updateActor(vtkSmartPointer<vtkActor> actor) {
+	void Execute(vtkObject* caller, unsigned long, void*) override
+	{
+		if (statusAddShape_) {
+			vtkRenderWindowInteractor* renderer = reinterpret_cast<vtkRenderWindowInteractor*>(caller);
 			std::lock_guard<std::mutex> g_l(this->g_lock);
+			vtkSmartPointer<vtkRenderer> ptr_renderer = vtkSmartPointer<vtkRenderer>::New();
 
-			this->actor_ = actor;
-			statusAddShape_ = true;
-		};
+			renderer->GetRenderWindow()->GetRenderers()->RemoveAllItems();
+			ptr_renderer->AddActor(this->actor_);
 
+			renderer->GetRenderWindow()->AddRenderer(ptr_renderer);
+			renderer->GetRenderWindow()->Render();
 
-		vtkMyCallback() : g_lock() {};
-	private:
-		bool statusAddShape_ = false;
-		bool stateExit_ = false;
-		mutable std::mutex g_lock;
-
-		vtkSmartPointer<vtkActor> actor_;
+			statusAddShape_ = !statusAddShape_;
+		}
 	};
+	
+	void updateActor(vtkSmartPointer<vtkActor> actor) {
+		std::lock_guard<std::mutex> g_l(this->g_lock);
+
+		this->actor_ = actor;
+		statusAddShape_ = true;
+	};
+
+
+	vtkMyCallback() : g_lock() {};
+private:
+	bool statusAddShape_ = false;
+	bool stateExit_ = false;
+	mutable std::mutex g_lock;
+
+	vtkSmartPointer<vtkActor> actor_;
+};
 
 
 class ViewWndow
@@ -86,15 +85,13 @@ public:
 
 private:
 
-	std::thread t1;
+	vtkSmartPointer<vtkRenderWindow> renderWindowDisplay3D_;
+	vtkSmartPointer<vtkRenderer> renDisplay3D_;
 
-	vtkSmartPointer<vtkRenderWindow> renderwindowDisplay3D;
-	vtkSmartPointer<vtkRenderer> renDisplay3D;
+	vtkSmartPointer<vtkRenderWindowInteractor> irenDisplay3D_;
+	vtkSmartPointer<vtkInteractorStyleTrackballCamera> styleDisplay3D_;
 
-	vtkSmartPointer<vtkRenderWindowInteractor> irenDisplay3D;
-	vtkSmartPointer<vtkInteractorStyleTrackballCamera> styleDisplay3D;
-
-	vtkSmartPointer<vtkMyCallback> timerCallback;
+	vtkSmartPointer<vtkMyCallback> timerCallback_;
 
 	std::queue<Message>& queue_;
 };

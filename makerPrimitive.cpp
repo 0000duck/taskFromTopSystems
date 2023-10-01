@@ -86,7 +86,6 @@ void MakerPrimitive::makeRectangle()
     gp_Pnt p3(-A / 2, -B / 2, 0);
     gp_Pnt p4(-A / 2, B / 2, 0);
 
-
     BRepBuilderAPI_MakeWire makerWire;
 
     makerWire.Add(BRepBuilderAPI_MakeEdge(p1, p2).Edge());

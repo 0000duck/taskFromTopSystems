@@ -1,11 +1,11 @@
 #include "eventLoop.h"
 
-EventLoop::EventLoop(): cli(queue_), maker(queue_), win(queue_){}
+EventLoop::EventLoop(): cli_(queue_), maker_(queue_), win_(queue_){}
 
 void EventLoop::loop()
 {
 	while (true) {
-		if (queue_.empty()) cli.processing();
+		if (queue_.empty()) cli_.processing();
 
 		Message mes = queue_.front();
 		
@@ -15,10 +15,10 @@ void EventLoop::loop()
 			//win.exit();
 			//return;
 		case Message::makeShape:
-			maker.makePrimitive(mes);
+			maker_.makePrimitive(mes);
 			break;
 		case Message::updateShape:
-			win.updateShape(maker.getShape());
+			win_.updateShape(maker_.getShape());
 			break;
 		default:
 			return;

@@ -8,6 +8,7 @@
 
 #include "message.h"
 
+
 class CLI
 {
 public:
@@ -17,7 +18,7 @@ public:
 private:
 	CLI() = delete;
 
-	void InitMessage();
+	void invitationMessage();
 	void pushMake(int i);
 	void pushExit();
 public:
