@@ -30,7 +30,7 @@
 2. Скачать зависимости ([freeimage-3.17.0](https://dev.opencascade.org/resources/download/3rd-party-components) [freetype-2.5.5](https://dev.opencascade.org/resources/download/3rd-party-components) [tcltk-86](https://dev.opencascade.org/resources/download/3rd-party-components) [VTK-6.1.0](https://dev.opencascade.org/resources/download/3rd-party-components)).
 3. Создать проект сборки в СMake со влюченным флагом USE_VTK.
 4. Собрать проект OCC, [пример](https://www.youtube.com/watch?v=kZpr4ocnavA). 
-5. Клонировать данный репозитарий на свой пк.
+5. Клонировать данный репозиторий на свой пк.
 6. Добавить в дополнительные каталоги включаемых файлов: OpenCascade_install\inc (Собранная библиотека) и vtk\inc.
 7. Добавить в дополнительные каталоги библиотек OpenCascade_install\win64\vc14\lib и vtk\lib.
 8. В дополнительные зависимости добавить:
