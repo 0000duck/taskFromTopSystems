@@ -42,5 +42,3 @@
 
 ## Замечания
 В Event Loop реализовано сообщение Exit, однако при вызове vtkRenderWindowInteractor::TerminateApp() или vtkRenderWindowInteractor::TermiExitCallback() в потоке в котором исполняется ViewWndow происходит ошибка "wglMakeCurrent failed in MakeCurrent()". При обычном завершении приложения (закрыть окно приложения), ошибок замечено не было.
-
-В ViewWndow реализован CallBack класс. При работе с потоками используются mutex-ы для обеспечения потокобезопасности.
