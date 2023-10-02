@@ -26,7 +26,7 @@
 ## Сборка проета
 Проеет зависит от библиотек [VTK 6.1.0](https://dev.opencascade.org/resources/download/3rd-party-components) и [OpenCascade](https://github.com/Open-Cascade-SAS/OCCT).
 
-Для работы OpenCascade (OCC) с VTK необходимо собрать библиотеку OCC с влюченным модулем VTK (в данном модуле реализованы алгоритмы преобразования TopoShape в vtkShape).
+Для работы OpenCascade (OCC) с VTK необходимо собрать библиотеку OCC с включенным модулем VTK (в данном модуле реализованы алгоритмы преобразования TopoShape в vtkShape).
 
 1. Скачать источники [OCC](https://github.com/Open-Cascade-SAS/OCCT).
 2. Скачать зависимости ([freeimage-3.17.0](https://dev.opencascade.org/resources/download/3rd-party-components) [freetype-2.5.5](https://dev.opencascade.org/resources/download/3rd-party-components) [tcltk-86](https://dev.opencascade.org/resources/download/3rd-party-components) [VTK-6.1.0](https://dev.opencascade.org/resources/download/3rd-party-components)).
